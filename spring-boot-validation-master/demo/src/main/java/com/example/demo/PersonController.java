@@ -44,20 +44,33 @@ public class PersonController {
     @RequestMapping(value = "/insertSomeCoffeeMilkWater", method = RequestMethod.POST)
     public MakeCoffeeModel insertSomeCoffeeMilkWater(@RequestBody MakeCoffeeModel coffeeReq){
     	Iterator<MakeCoffeeModel> allCoffees = personRepository.findAll().iterator();
-        return personRepository.save(CoffeeCalculator.insertCoffeeForDbOrRemove(allCoffees, coffeeReq,Boolean.TRUE));    
+    	List<MakeCoffeeModel> listCoffee = new ArrayList<>();
+    	allCoffees.forEachRemaining(listCoffee::add);
+    	MakeCoffeeModel howManyCoffeWillBeInserted = CoffeeCalculator.insertCoffeeForDbOrRemove(listCoffee, coffeeReq,Boolean.TRUE);
+    	personRepository.deleteAll();
+    	return personRepository.save(howManyCoffeWillBeInserted);    
     }
     
 
     @RequestMapping(value = "/makeCoffee", method = RequestMethod.POST)
     public double makeCoffee(@RequestBody MakeCoffee makeCoffeeReq){
     	
-    	CoffeeCalculator.checkCoffeeReq(makeCoffeeReq);
 		if (personRepository.count() != CoffeeUtils.EMPTY_INT){
-	    	Iterator<MakeCoffeeModel> allCoffees = personRepository.findAll().iterator();   
-	    	MakeCoffeeModel coffee = CoffeeCalculator.determineHowManyCoffee(makeCoffeeReq);
-	    	CoffeeCalculator.insertCoffeeForDbOrRemove(allCoffees, coffee,Boolean.FALSE);
+	    	CoffeeCalculator.checkCoffeeReq(makeCoffeeReq);
+	    	Iterator<MakeCoffeeModel> allCoffees = personRepository.findAll().iterator();
+	    	List<MakeCoffeeModel> listCoffee = new ArrayList<>();
+	    	allCoffees.forEachRemaining(listCoffee::add);
 	    	
-	        CoffeeCalculator.checkSizeAndWarn(coffee);
+			CoffeeCalculator.checkSizeAndWarn(listCoffee);
+	    	
+			MakeCoffeeModel coffee = CoffeeCalculator.determineHowManyCoffee(makeCoffeeReq);
+	    	
+			MakeCoffeeModel howManyCoffeRemain = CoffeeCalculator.insertCoffeeForDbOrRemove(listCoffee, coffee,Boolean.FALSE);
+	    	
+			personRepository.deleteAll();
+	    	personRepository.save(howManyCoffeRemain);
+	    	
+	    	return CoffeeCalculator.coffeePriceCalc(coffee);
 	        
 	    }
 		else{

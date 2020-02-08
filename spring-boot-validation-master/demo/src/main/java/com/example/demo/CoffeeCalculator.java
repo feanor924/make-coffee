@@ -6,52 +6,57 @@ import java.util.List;
 
 public class CoffeeCalculator {
 
-	public static MakeCoffeeModel insertCoffeeForDbOrRemove(Iterator<MakeCoffeeModel> allCoffees,MakeCoffeeModel coffeeReq,Boolean isInsertOrRemove){
+	public static MakeCoffeeModel insertCoffeeForDbOrRemove(final List<MakeCoffeeModel> allCoffees,final MakeCoffeeModel coffeeReq,final Boolean isInsertOrRemove){
 		double insertToDbWaterSize =0;
 		double insertToDbMilkSize =0;
 		double insertToDbCoffeeSize =0;
     	
-    	List<MakeCoffeeModel> listCoffee = new ArrayList<>();
-    	allCoffees.forEachRemaining(listCoffee::add);
-    	
-        for (MakeCoffeeModel coffeesFromDb: listCoffee){
-        	insertToDbWaterSize+=coffeesFromDb.getWaterSize();
-        	insertToDbMilkSize+=coffeesFromDb.getMilkSize();
-        	insertToDbCoffeeSize+=coffeesFromDb.getCoffeeSize();
+        for (MakeCoffeeModel coffeesFromDb: allCoffees){
+        	insertToDbWaterSize = insertToDbWaterSize +coffeesFromDb.getWaterSize();
+        	insertToDbMilkSize = insertToDbMilkSize + coffeesFromDb.getMilkSize();
+        	insertToDbCoffeeSize = insertToDbCoffeeSize + coffeesFromDb.getCoffeeSize();
         }
         if (Boolean.TRUE.equals(isInsertOrRemove)){
-	    	insertToDbWaterSize += coffeeReq.getWaterSize();
-	        insertToDbMilkSize += coffeeReq.getMilkSize();
-	        insertToDbCoffeeSize += coffeeReq.getCoffeeSize(); 
+	    	insertToDbWaterSize = insertToDbWaterSize +coffeeReq.getWaterSize();
+	        insertToDbMilkSize = insertToDbMilkSize + coffeeReq.getMilkSize();
+	        insertToDbCoffeeSize = insertToDbCoffeeSize + coffeeReq.getCoffeeSize(); 
         }
         else{
-        	insertToDbWaterSize -= coffeeReq.getWaterSize();
-	        insertToDbMilkSize -= coffeeReq.getMilkSize();
-	        insertToDbCoffeeSize -= coffeeReq.getCoffeeSize(); 
+        	insertToDbWaterSize = insertToDbWaterSize - coffeeReq.getWaterSize();
+	        insertToDbMilkSize = insertToDbMilkSize - coffeeReq.getMilkSize();
+	        insertToDbCoffeeSize = insertToDbCoffeeSize - coffeeReq.getCoffeeSize(); 
         }
-       
         return new MakeCoffeeModel(insertToDbMilkSize,insertToDbCoffeeSize,insertToDbWaterSize);
 	}
 	
-	public static void checkSizeAndWarn(MakeCoffeeModel coffee){
-		StringBuilder sb = new StringBuilder();
-        if (coffee.getWaterSize() <= CoffeeUtils.EMPTY_LONG){
-        	sb.append(CoffeeUtils.WATER + CoffeeUtils.EMPTY_STRING);
+	public static void checkSizeAndWarn(final List<MakeCoffeeModel> allCoffees){
+		
+    	StringBuilder sb = new StringBuilder();
+    	
+        for (MakeCoffeeModel coffeesFromDb: allCoffees){
+        	if (coffeesFromDb.getWaterSize() <= CoffeeUtils.EMPTY_LONG){
+            	sb.append(CoffeeUtils.WATER + ": " + coffeesFromDb.getWaterSize() + CoffeeUtils.EMPTY_STRING);
+            }
+            if (coffeesFromDb.getMilkSize() <= CoffeeUtils.EMPTY_LONG){
+            	sb.append(CoffeeUtils.MILK + " " + coffeesFromDb.getMilkSize()+  CoffeeUtils.EMPTY_STRING);
+            }
+            if (coffeesFromDb.getCoffeeSize() <= CoffeeUtils.EMPTY_LONG){
+            	sb.append(CoffeeUtils.COFFEE + ": " + coffeesFromDb.getCoffeeSize()+ CoffeeUtils.EMPTY_STRING);
+            }
+            if (sb.length() > 0){
+            	sb.deleteCharAt(sb.length()-1);
+            	throw new ResourceError(sb.toString());
+            }
         }
-        if (coffee.getMilkSize() <= CoffeeUtils.EMPTY_LONG){
-        	sb.append(CoffeeUtils.MILK + CoffeeUtils.EMPTY_STRING);
-        }
-        if (coffee.getCoffeeSize() <= CoffeeUtils.EMPTY_LONG){
-        	sb.append(CoffeeUtils.COFFEE + CoffeeUtils.EMPTY_STRING);
-        }
-        if (sb.length() > 0){
-        	sb.deleteCharAt(sb.length()-1);
-        	throw new ResourceError(sb.toString());
-        }
+		
 	}
 	
+	public static double coffeePriceCalc(final MakeCoffeeModel coffee){
+			return (coffee.getWaterSize() * CoffeeUtils.WATER_PRICE) + (coffee.getMilkSize() * CoffeeUtils.MILK_PRICE)
+					+ (coffee.getCoffeeSize() * CoffeeUtils.COFFEE_PRICE);
+	}
 	
-	public static MakeCoffeeModel determineHowManyCoffee(MakeCoffee makeCoffeeReq){
+	public static MakeCoffeeModel determineHowManyCoffee(final MakeCoffee makeCoffeeReq){
 		MakeCoffeeModel coffee = new MakeCoffeeModel();
 		if (makeCoffeeReq.getCoffeeSize().toLowerCase().equals(CoffeeUtils.LITTLE_LOWER_CASE)){
 			coffee.setCoffeeSize(CoffeeUtils.LITTLE_COFFEE_OZ);
@@ -77,16 +82,15 @@ public class CoffeeCalculator {
 		return coffee;
 	}
 	
-	public static void checkCoffeeReq(MakeCoffee makeCoffeeReq){
+	public static void checkCoffeeReq(final MakeCoffee makeCoffeeReq){
 		if ( makeCoffeeReq == null ){
 			throw new ResourceError(CoffeeUtils.SIZE_CANNOT_BE_LOWER_THAN_ZERO_OR_EMPTY);
 		}
-		else if (makeCoffeeReq.getCoffeeSize() == null || makeCoffeeReq.getWaterSize() == null || makeCoffeeReq.getMilkSize() == null){
+		else if (makeCoffeeReq.getCoffeeSize() == null || makeCoffeeReq.getMilkSize() == null){
 			throw new ResourceError(CoffeeUtils.SIZE_CANNOT_BE_LOWER_THAN_ZERO_OR_EMPTY);
 		}
 		else if (makeCoffeeReq.getCoffeeSize().equals(CoffeeUtils.EMPTY_STRING)
-				|| makeCoffeeReq.getMilkSize().equals(CoffeeUtils.EMPTY_STRING)
-				|| makeCoffeeReq.getWaterSize().equals(CoffeeUtils.EMPTY_STRING)){
+				|| makeCoffeeReq.getMilkSize().equals(CoffeeUtils.EMPTY_STRING)){
 			throw new ResourceError(CoffeeUtils.SIZE_CANNOT_BE_LOWER_THAN_ZERO_OR_EMPTY);
 		}
 

@@ -2,14 +2,14 @@ package com.example.demo;
 
 public interface CoffeeUtils {
 	
-	final static double LARGE_WATER_OZ = 0.1; 
+	final static double LARGE_WATER_OZ = 0.3; 
 	
 	final static double MID_WATER_OZ = 0.2; 
 	
 	final static double LITTLE_WATER_OZ = 0.1; 
 	
 	
-	final static double LARGE_COFFEE_OZ = 0.1; 
+	final static double LARGE_COFFEE_OZ = 0.3; 
 	
 	final static double MID_COFFEE_OZ = 0.2; 
 	
@@ -17,7 +17,7 @@ public interface CoffeeUtils {
 	
 	
 	
-	final static double LARGE_MILK_OZ = 0.1; 
+	final static double LARGE_MILK_OZ = 0.3; 
 	
 	final static double MID_MILK_OZ = 0.2; 
 	
@@ -25,27 +25,14 @@ public interface CoffeeUtils {
 	
 	
 	
-	final static double LARGE_WATER_PRICE = 0.3; 
-	
-	final static double MID_WATER_PRICE = 0.2; 
-	
-	final static double LITTLE_WATER_PRICE = 0.1; 
-	
-	
-	
-	final static double LARGE_COFFEE_PRICE = 4.3; 
-	
-	final static double MID_COFFEE_PRICE = 4.3; 
-	
-	final static double LITTLE_COFFEE_PRICE = 4.3; 
+	final static double WATER_PRICE = 0.3; 
 
 	
+	final static double COFFEE_PRICE = 4.3; 
+
 	
-	final static double LARGE_MILK_PRICE = 1.2;
+	final static double MILK_PRICE = 1.2;
 	
-	final static double MID_MILK_PRICE = 0.8;
-	
-	final static double LITTLE_MILK_PRICE = 0.4;
 	
 
 	
