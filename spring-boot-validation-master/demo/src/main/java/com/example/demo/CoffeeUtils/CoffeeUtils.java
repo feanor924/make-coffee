@@ -1,27 +1,27 @@
-package com.example.demo;
+package com.example.demo.CoffeeUtils;
 
 public interface CoffeeUtils {
 	
-	final static double LARGE_WATER_OZ = 0.3; 
+	final static double LARGE_WATER_OZ = 5.2; 
 	
-	final static double MID_WATER_OZ = 0.2; 
+	final static double MID_WATER_OZ = 5.0;
 	
-	final static double LITTLE_WATER_OZ = 0.1; 
-	
-	
-	final static double LARGE_COFFEE_OZ = 0.3; 
-	
-	final static double MID_COFFEE_OZ = 0.2; 
-	
-	final static double LITTLE_COFFEE_OZ = 0.1;
+	final static double LITTLE_WATER_OZ = 4.5; 
 	
 	
+	final static double LARGE_COFFEE_OZ = 3.1; 
 	
-	final static double LARGE_MILK_OZ = 0.3; 
+	final static double MID_COFFEE_OZ = 2.7; 
 	
-	final static double MID_MILK_OZ = 0.2; 
+	final static double LITTLE_COFFEE_OZ = 2.2;
 	
-	final static double LITTLE_MILK_OZ = 0.1; 
+	
+	
+	final static double LARGE_MILK_OZ = 2.9; 
+	
+	final static double MID_MILK_OZ = 2.7; 
+	
+	final static double LITTLE_MILK_OZ = 2.1; 
 	
 	
 	

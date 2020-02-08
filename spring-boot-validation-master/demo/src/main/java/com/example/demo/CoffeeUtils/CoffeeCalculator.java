@@ -1,8 +1,12 @@
-package com.example.demo;
+package com.example.demo.CoffeeUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.example.demo.ResourceError;
+import com.example.demo.CoffeeEntity.MakeCoffeeModel;
+import com.example.demo.MakeCoffeeDTO.MakeCoffeeDTO;
 
 public class CoffeeCalculator {
 
@@ -56,7 +60,7 @@ public class CoffeeCalculator {
 					+ (coffee.getCoffeeSize() * CoffeeUtils.COFFEE_PRICE);
 	}
 	
-	public static MakeCoffeeModel determineHowManyCoffee(final MakeCoffee makeCoffeeReq){
+	public static MakeCoffeeModel determineHowManyCoffee(final MakeCoffeeDTO makeCoffeeReq){
 		MakeCoffeeModel coffee = new MakeCoffeeModel();
 		if (makeCoffeeReq.getCoffeeSize().toLowerCase().equals(CoffeeUtils.LITTLE_LOWER_CASE)){
 			coffee.setCoffeeSize(CoffeeUtils.LITTLE_COFFEE_OZ);
@@ -76,13 +80,13 @@ public class CoffeeCalculator {
 			coffee.setWaterSize(CoffeeUtils.MID_WATER_OZ);
 		}
 		else{
-			coffee.setCoffeeSize(CoffeeUtils.LARGE_MILK_OZ);
+			coffee.setMilkSize(CoffeeUtils.LARGE_MILK_OZ);
 			coffee.setWaterSize(CoffeeUtils.LITTLE_WATER_OZ);
 		}	
 		return coffee;
 	}
 	
-	public static void checkCoffeeReq(final MakeCoffee makeCoffeeReq){
+	public static void checkCoffeeReq(final MakeCoffeeDTO makeCoffeeReq){
 		if ( makeCoffeeReq == null ){
 			throw new ResourceError(CoffeeUtils.SIZE_CANNOT_BE_LOWER_THAN_ZERO_OR_EMPTY);
 		}

@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.CoffeeEntity;
 
 import com.fasterxml.jackson.annotation.JsonView;
 

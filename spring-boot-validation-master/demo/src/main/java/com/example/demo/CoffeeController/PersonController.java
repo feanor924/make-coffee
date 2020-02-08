@@ -1,8 +1,15 @@
-package com.example.demo;
+package com.example.demo.CoffeeController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.ResourceError;
+import com.example.demo.CoffeeEntity.MakeCoffeeModel;
+import com.example.demo.CoffeeService.CoffeeService;
+import com.example.demo.CoffeeUtils.CoffeeCalculator;
+import com.example.demo.CoffeeUtils.CoffeeUtils;
+import com.example.demo.MakeCoffeeDTO.MakeCoffeeDTO;
 
 import java.util.*;
 
@@ -13,12 +20,12 @@ import java.util.*;
 public class PersonController {
 
     @Autowired
-    PersonRepository personRepository;
+    CoffeeService coffeeService;
 
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public List<MakeCoffeeModel> findAll_(){
 
-        Iterator<MakeCoffeeModel> coffees = personRepository.findAll().iterator();
+        Iterator<MakeCoffeeModel> coffees = coffeeService.findAll().iterator();
 
         List<MakeCoffeeModel> listCoffee = new ArrayList<>();
         coffees.forEachRemaining(listCoffee::add);
@@ -32,7 +39,7 @@ public class PersonController {
     @RequestMapping(value = "/findbyid/{id}", method = RequestMethod.GET)
     public Optional<MakeCoffeeModel> findById(@PathVariable(value = "id") Long id){
 
-        Optional<MakeCoffeeModel> coffees = personRepository.findById(id);
+        Optional<MakeCoffeeModel> coffees = coffeeService.findById(id);
 
         if ( !coffees.isPresent())
             throw new ResourceError(CoffeeUtils.COFFEES_ARE_NOT_FOUND);
@@ -43,21 +50,21 @@ public class PersonController {
     
     @RequestMapping(value = "/insertSomeCoffeeMilkWater", method = RequestMethod.POST)
     public MakeCoffeeModel insertSomeCoffeeMilkWater(@RequestBody MakeCoffeeModel coffeeReq){
-    	Iterator<MakeCoffeeModel> allCoffees = personRepository.findAll().iterator();
+    	Iterator<MakeCoffeeModel> allCoffees = coffeeService.findAll().iterator();
     	List<MakeCoffeeModel> listCoffee = new ArrayList<>();
     	allCoffees.forEachRemaining(listCoffee::add);
     	MakeCoffeeModel howManyCoffeWillBeInserted = CoffeeCalculator.insertCoffeeForDbOrRemove(listCoffee, coffeeReq,Boolean.TRUE);
-    	personRepository.deleteAll();
-    	return personRepository.save(howManyCoffeWillBeInserted);    
+    	coffeeService.deleteAll();
+    	return coffeeService.save(howManyCoffeWillBeInserted);    
     }
     
 
     @RequestMapping(value = "/makeCoffee", method = RequestMethod.POST)
-    public double makeCoffee(@RequestBody MakeCoffee makeCoffeeReq){
+    public double makeCoffee(@RequestBody MakeCoffeeDTO makeCoffeeReq){
     	
-		if (personRepository.count() != CoffeeUtils.EMPTY_INT){
+		if (coffeeService.count() != CoffeeUtils.EMPTY_INT){
 	    	CoffeeCalculator.checkCoffeeReq(makeCoffeeReq);
-	    	Iterator<MakeCoffeeModel> allCoffees = personRepository.findAll().iterator();
+	    	Iterator<MakeCoffeeModel> allCoffees = coffeeService.findAll().iterator();
 	    	List<MakeCoffeeModel> listCoffee = new ArrayList<>();
 	    	allCoffees.forEachRemaining(listCoffee::add);
 	    	
@@ -67,8 +74,8 @@ public class PersonController {
 	    	
 			MakeCoffeeModel howManyCoffeRemain = CoffeeCalculator.insertCoffeeForDbOrRemove(listCoffee, coffee,Boolean.FALSE);
 	    	
-			personRepository.deleteAll();
-	    	personRepository.save(howManyCoffeRemain);
+			coffeeService.deleteAll();
+			coffeeService.save(howManyCoffeRemain);
 	    	
 	    	return CoffeeCalculator.coffeePriceCalc(coffee);
 	        

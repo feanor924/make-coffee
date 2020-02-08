@@ -1,6 +1,6 @@
-package com.example.demo;
+package com.example.demo.MakeCoffeeDTO;
 
-public class MakeCoffee {
+public class MakeCoffeeDTO {
 	private String coffeeSize;
 	private String milkSize;
 	public String getCoffeeSize() {
