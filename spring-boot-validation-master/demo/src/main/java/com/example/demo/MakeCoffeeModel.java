@@ -14,61 +14,54 @@ import javax.validation.constraints.*;
 public class MakeCoffeeModel {
 
     @Id @GeneratedValue
-    @JsonView(View.Summary.class)
     private Long id;
 
 
     @NotNull
-    @NotEmpty
     @Column(name = "coffee_size")
-    @JsonView(View.Summary.class)
-    private Long coffeeSize;
+    private double coffeeSize;
     
     
     @NotNull
-    @NotEmpty
     @Column(name = "water_size")
-    @JsonView(View.Summary.class)
-    private Long waterSize;
+    private double waterSize;
     
     
     @NotNull
-    @NotEmpty
     @Column(name = "milk_size")
-    @JsonView(View.Summary.class)
-    private Long milkSize;
+    private double milkSize;
        
 
     public MakeCoffeeModel(){}
 
-    public Long getMilkSize() {
+    public double getMilkSize() {
         return milkSize;
     }
     
-    public Long getCoffeeSize() {
+    public double getCoffeeSize() {
         return coffeeSize;
     }
 
-    public Long getWaterSize() {
+    public double getWaterSize() {
         return waterSize;
     }
 
-    public MakeCoffeeModel(Long milkSize,Long coffeeSize, Long waterSize){
+    public MakeCoffeeModel(double milkSize,double coffeeSize, double waterSize){
         this.milkSize = milkSize;
         this.coffeeSize = coffeeSize;
         this.waterSize = waterSize;
     }
     
 
-	public void setCoffeeSize(Long coffeeSize) {
+	public void setCoffeeSize(double coffeeSize) {
 		this.coffeeSize = coffeeSize;
 	}
 
-	public void setWaterSize(Long waterSize) {
+	public void setWaterSize(double waterSize) {
 		this.waterSize = waterSize;
 	}
 
-	public void setMilkSize(Long milkSize) {
+	public void setMilkSize(double milkSize) {
 		this.milkSize = milkSize;
 	}
 

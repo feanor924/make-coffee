@@ -9,11 +9,5 @@ import org.springframework.data.repository.CrudRepository;
 
 
 public interface PersonRepository extends CrudRepository<MakeCoffeeModel, Long> {
-
-    List<MakeCoffeeModel> findByCoffeeSize(Long coffeeSize);
-    
-    List<MakeCoffeeModel> findWaterSize(Long waterSize);
-
-    List<MakeCoffeeModel> findByMilkSize(Long milkSize);
     
 }
