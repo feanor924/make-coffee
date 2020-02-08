@@ -55,20 +55,6 @@ public class PersonController {
     }
 
     @JsonView(View.Summary.class)
-    @RequestMapping(value = "/findbyname/{coffee_name}",method = RequestMethod.GET)
-    public List<MakeCoffeeModel> fetchDataByName(@PathVariable(value = "coffee_name") String coffeeName){
-
-        List<MakeCoffeeModel> coffees = personRepository.findByCoffeeName(coffeeName);
-
-        if ( coffees.size() == 0 ){
-            throw new ResourceError("Coffees are not found");
-        }
-
-        return coffees;
-
-    }
-
-    @JsonView(View.Summary.class)
     @RequestMapping(value = "/findbyemail/{coffee_size}",method = RequestMethod.GET)
     public List<MakeCoffeeModel> fetchDataByCoffeeSize(@PathVariable(value = "coffee_size") Long coffeeSize){
 
@@ -109,34 +95,17 @@ public class PersonController {
         return coffeeSizeList;
     }
     
-    @RequestMapping(value = "/insertCoffeeWaterMilk", method = RequestMethod.POST)
-    public MakeCoffeeModel process(@Valid @RequestBody MakeCoffeeModel model, BindingResult result){
+    @RequestMapping(value = "/insertSomeCoffeeMilkWater", method = RequestMethod.POST)
+    public MakeCoffeeModel insertSomeCoffeeMilkWater(@Valid @RequestBody MakeCoffeeModel model, BindingResult result){
     
-    	Long insertToDbWaterSize =0L;
-    	Long insertToDbMilkSize =0L;
-    	Long insertToDbCoffeeSize =0L;
-    	
     	Iterator<MakeCoffeeModel> allCoffees = personRepository.findAll().iterator();
-    	List<MakeCoffeeModel> listCoffee = new ArrayList<>();
-    	allCoffees.forEachRemaining(listCoffee::add);
-    	
-        for (MakeCoffeeModel coffeesFromDb: listCoffee){
-        	insertToDbWaterSize+=coffeesFromDb.getWaterSize();
-        	insertToDbMilkSize+=coffeesFromDb.getMilkSize();
-        	insertToDbCoffeeSize+=coffeesFromDb.getCoffeeSize();
-        }
-        insertToDbWaterSize += model.getWaterSize();
-        insertToDbMilkSize += model.getMilkSize();
-        insertToDbCoffeeSize += model.getCoffeeSize();
-        
-        MakeCoffeeModel newCoffee = new MakeCoffeeModel(insertToDbMilkSize,insertToDbCoffeeSize,insertToDbWaterSize);
-        
-        
+        personRepository.deleteAll();      
+        return personRepository.save(CoffeeCalculator.insertCoffeeForDb(allCoffees, model, Boolean.TRUE));    
     }
     
 
     @RequestMapping(value = "/makeCoffee", method = RequestMethod.POST)
-    public MakeCoffeeModel process(@Valid @RequestBody MakeCoffeeModel model, BindingResult result){
+    public double makeCoffee(@Valid @RequestBody MakeCoffeeModel model, BindingResult result){
 
 
         List<FieldError> lists = result.getFieldErrors();
@@ -150,8 +119,12 @@ public class PersonController {
             throw new ResourceError(sb.toString());
         }
         else{
-        	
-        	
+        	Iterator<MakeCoffeeModel> allCoffees = personRepository.findAll().iterator();
+            personRepository.deleteAll();      
+            MakeCoffeeModel coffee = CoffeeCalculator.insertCoffeeForDb(allCoffees, model, Boolean.FALSE);
+            CoffeeCalculator.checkSizeAndWarn(coffee);
+            return CoffeeCalculator.coffeePriceCalc(model);
+            
         }
 
     }
