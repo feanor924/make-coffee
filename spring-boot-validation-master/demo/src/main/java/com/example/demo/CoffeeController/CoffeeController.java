@@ -18,7 +18,7 @@ import java.util.*;
  */
 @CrossOrigin
 @RestController
-public class PersonController {
+public class CoffeeController {
 
     @Autowired
     CoffeeService coffeeService;
