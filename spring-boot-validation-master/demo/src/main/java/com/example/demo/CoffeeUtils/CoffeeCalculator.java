@@ -30,7 +30,7 @@ public class CoffeeCalculator {
 	        insertToDbMilkSize = insertToDbMilkSize - coffeeReq.getMilkSize();
 	        insertToDbCoffeeSize = insertToDbCoffeeSize - coffeeReq.getCoffeeSize(); 
         }
-        return new MakeCoffeeModel(insertToDbMilkSize,insertToDbCoffeeSize,insertToDbWaterSize);
+        return new MakeCoffeeModel(Double.parseDouble(String.format("%.2f", insertToDbMilkSize)),Double.parseDouble(String.format("%.2f", insertToDbCoffeeSize)),Double.parseDouble(String.format("%.2f", insertToDbWaterSize)));
 	}
 	
 	public static void checkSizeAndWarn(final List<MakeCoffeeModel> allCoffees){
@@ -56,8 +56,8 @@ public class CoffeeCalculator {
 	}
 	
 	public static double coffeePriceCalc(final MakeCoffeeModel coffee){
-			return (coffee.getWaterSize() * CoffeeUtils.WATER_PRICE) + (coffee.getMilkSize() * CoffeeUtils.MILK_PRICE)
-					+ (coffee.getCoffeeSize() * CoffeeUtils.COFFEE_PRICE);
+			return Double.parseDouble(String.format("%.2f",( (coffee.getWaterSize() * CoffeeUtils.WATER_PRICE) + (coffee.getMilkSize() * CoffeeUtils.MILK_PRICE)
+					+ (coffee.getCoffeeSize() * CoffeeUtils.COFFEE_PRICE))));
 	}
 	
 	public static MakeCoffeeModel determineHowManyCoffee(final MakeCoffeeDTO makeCoffeeReq){
