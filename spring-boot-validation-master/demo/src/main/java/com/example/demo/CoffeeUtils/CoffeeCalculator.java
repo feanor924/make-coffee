@@ -39,13 +39,13 @@ public class CoffeeCalculator {
     	
         for (MakeCoffeeModel coffeesFromDb: allCoffees){
         	if (coffeesFromDb.getWaterSize() <= CoffeeUtils.EMPTY_LONG){
-            	sb.append(CoffeeUtils.WATER + ": " + coffeesFromDb.getWaterSize() + CoffeeUtils.EMPTY_STRING);
+            	sb.append(CoffeeUtils.WATER + ": " + CoffeeUtils.EMPTY_STRING + " ");
             }
             if (coffeesFromDb.getMilkSize() <= CoffeeUtils.EMPTY_LONG){
-            	sb.append(CoffeeUtils.MILK + " " + coffeesFromDb.getMilkSize()+  CoffeeUtils.EMPTY_STRING);
+            	sb.append(CoffeeUtils.MILK + " " +  CoffeeUtils.EMPTY_STRING + " ");
             }
             if (coffeesFromDb.getCoffeeSize() <= CoffeeUtils.EMPTY_LONG){
-            	sb.append(CoffeeUtils.COFFEE + ": " + coffeesFromDb.getCoffeeSize()+ CoffeeUtils.EMPTY_STRING);
+            	sb.append(CoffeeUtils.COFFEE + ": "+ CoffeeUtils.EMPTY_STRING + " ");
             }
             if (sb.length() > 0){
             	sb.deleteCharAt(sb.length()-1);

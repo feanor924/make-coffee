@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link
+      data-require="bootstrap@4.0.5"
+      data-semver="4.0.5"
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+    />
+    <script
+      data-require="bootstrap@4.0.5"
+      data-semver="4.0.5"
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"
+    ></script>
+    <script
+      data-require="angularjs@1.6.2"
+      data-semver="1.6.2"
+      src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.js"
+    ></script>
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+  </head>
+
+<body ng-app="demo">
+
+<hr/>
+
+<div class="container" ng-controller="CoffeeController">
+
+    <div class="row">
+
+        <label>Coffee Oz</label> <input type="text" ng-model="makeCoffeeDTO.coffeeSize" class="input-sm spacing"/>
+
+        <label>Water Oz</label> <input type="text" ng-model="makeCoffeeDTO.waterSize" class="input-sm spacing"/>
+
+        <label>Milk Oz</label> <input type="text" ng-model="makeCoffeeDTO.milkSize" />
+
+        <button ng-click="insertCoffee()" class="btn btn-sm btn-info">Insert Some Coffee</button>
+
+    </div>
+
+    <div class="row">
+
+        <label>Coffee</label> <input type="text" ng-model="makeCoffeeModel.coffeeSize" class="input-sm spacing" placeholder="buyuk/orta/az"/>
+
+        <label>Milk</label> <input type="text" ng-model="makeCoffeeModel.milkSize" class="input-sm spacing" placeholder="buyuk/orta/az" />
+
+        <button ng-click="makeCoffee()" class="btn btn-sm btn-info">Make Coffee</button>
+
+    </div>
+
+    <hr/>
+
+    <div class="row">
+
+        <p>{{allStuffs | json}}</p>
+
+    </div>
+
+    <hr/>
+
+    <div class="row" ng-repeat="coffee in allCoffees">
+
+        <div class="">
+
+            <label>Coffee Oz</label><h3>{{coffee.coffeeSize}}</h3>
+            <label>Milk Oz</label> <h3>{{coffee.milkSize}}</h3>
+            <label>Water Oz</label> <h3>{{coffee.waterSize}}</h3>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+<script src="ui-bootstrap-tpls-2.5.0.min.js"></script>
+
+<script src="app.js"></script>
+
+<script src="CoffeeController.js"></script>
+
+<script src="CoffeeService.js"></script>
+
+<link rel="stylesheet" href="css/lib/bootstrap.min.css"/>
+
+<link rel="stylesheet" href="css/app/app.css"/>
+
+</html>

@@ -16,6 +16,7 @@ import java.util.*;
 /**
  * Created by canerbakar on 27.04.2018.
  */
+@CrossOrigin
 @RestController
 public class PersonController {
 
@@ -47,7 +48,6 @@ public class PersonController {
         return coffees;
     }
    
-    
     @RequestMapping(value = "/insertSomeCoffeeMilkWater", method = RequestMethod.POST)
     public MakeCoffeeModel insertSomeCoffeeMilkWater(@RequestBody MakeCoffeeModel coffeeReq){
     	Iterator<MakeCoffeeModel> allCoffees = coffeeService.findAll().iterator();
@@ -74,6 +74,10 @@ public class PersonController {
 	    	
 			MakeCoffeeModel howManyCoffeRemain = CoffeeCalculator.insertCoffeeForDbOrRemove(listCoffee, coffee,Boolean.FALSE);
 	    	
+			List<MakeCoffeeModel> howManyCoffeRemainList = new ArrayList<>();
+			howManyCoffeRemainList.add(howManyCoffeRemain);
+			CoffeeCalculator.checkSizeAndWarn(howManyCoffeRemainList);
+			
 			coffeeService.deleteAll();
 			coffeeService.save(howManyCoffeRemain);
 	    	
